@@ -1,0 +1,14 @@
+services:
+  fastify:
+    container_name: ${WEBSERVER_CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Map container port 3000 to host port 3000
+    volumes:
+      - ./src:/src # Mount project directory for live updates
+#      - /src/node_modules # Exclude node_modules to avoid conflicts
+    command: /bin/sh -c "npm install && npm run dev"
+    #    environment:
+#      NODE_ENV: development
