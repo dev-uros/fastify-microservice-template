@@ -18,30 +18,30 @@ export const configSchema = Type.Object(
             default: 'local',
             description: 'Application environment'
         }),
-        // DATABASE_NAME: Type.String({
-        //     description: 'Application database name',
-        //     default: 'fastify_admin_panel'
-        // }),
-        // DATABASE_HOST: Type.String({
-        //     description: 'Application database host',
-        //     default: 'localhost'
-        // }),
-        // DATABASE_PORT: Type.String({
-        //     description: 'Application database port',
-        //     default: '7604'
-        // }),
-        // DATABASE_USER: Type.String({
-        //     description: 'Application database user',
-        //     default: 'postgres'
-        // }),
-        // DATABASE_PASSWORD: Type.String({
-        //     description: 'Application database password',
-        //     default: 'postgres'
-        // }),
-        // DATABASE_URL: Type.String({
-        //     description: 'Application database url',
-        //     default: 'postgres://postgres:postgres@localhost:7604/fastify_admin_panel'
-        // })
+        DATABASE_NAME: Type.String({
+            description: 'Application database name',
+            default: 'microservice_template_db'
+        }),
+        DATABASE_HOST: Type.String({
+            description: 'Application database host',
+            default: 'localhost'
+        }),
+        DATABASE_PORT: Type.String({
+            description: 'Application database port',
+            default: '7604'
+        }),
+        DATABASE_USER: Type.String({
+            description: 'Application database user',
+            default: 'postgres'
+        }),
+        DATABASE_PASSWORD: Type.String({
+            description: 'Application database password',
+            default: 'postgres'
+        }),
+        DATABASE_URL: Type.String({
+            description: 'Application database url',
+            default: 'postgres://postgres:postgres@db:5432/microservice_template_db'
+        })
     },
     {
         additionalProperties: false

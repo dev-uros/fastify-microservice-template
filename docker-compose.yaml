@@ -1,4 +1,18 @@
 services:
+  db:
+    container_name: ${DB_CONTAINER_NAME}
+    image: 'postgres:15-alpine'
+    working_dir: /src
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - '7604:5432'
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
+      - microservice_template_db:/var/lib/postgresql/data
+
   fastify:
     container_name: ${WEBSERVER_CONTAINER_NAME}
     build:
@@ -12,3 +26,6 @@ services:
     command: /bin/sh -c "npm install && npm run dev"
     #    environment:
 #      NODE_ENV: development
+volumes:
+  microservice_template_db:
+    driver: local
