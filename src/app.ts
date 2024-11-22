@@ -37,11 +37,11 @@ const app = Fastify({
 app.withTypeProvider<TypeBoxTypeProvider>()
 
 
-// await app.register(AutoLoad, {
-//     dir: join(import.meta.url, 'plugins'),
-//     forceESM: true,
-//     encapsulate: false
-// })
+await app.register(AutoLoad, {
+    dir: join(import.meta.url, 'plugins'),
+    forceESM: true,
+    encapsulate: false
+})
 
 await app.register(AutoLoad, {
     dir: join(import.meta.url, 'modules'),

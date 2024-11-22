@@ -3,7 +3,7 @@ import closeWithGrace from "close-with-grace";
 import app from "./app.js";
 
 
-await app.listen({ port: 3000, host: '0.0.0.0'})
+await app.listen({ port: app.config.PORT, host: app.config.HOST})
 
 closeWithGrace(async ({ err }) => {
     if (err) {
