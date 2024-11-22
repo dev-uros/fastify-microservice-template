@@ -1,43 +1,15 @@
-import Fastify from 'fastify'
-import {myName} from "./app.js";
-const fastify = Fastify({
-    logger: true
-})
+import closeWithGrace from "close-with-grace";
 
-fastify.route({
-    method: 'GET',
-    url: '/',
-    schema: {
-        // request needs to have a querystring with a `name` parameter
-        querystring: {
-            type: 'object',
-            properties: {
-                name: { type: 'string'}
-            },
-            required: ['name'],
-        },
-        // the response needs to be an object with an `hello` property of type 'string'
-        response: {
-            200: {
-                type: 'object',
-                properties: {
-                    hello: { type: 'string' }
-                }
-            }
-        }
-    },
-    // this function is executed for every request before the handler is executed
-    preHandler: async (request, reply) => {
-        // E.g. check authentication
-    },
-    handler: async (request, reply) => {
-        return { hello: 'world + njiha'  + myName}
+import app from "./app.js";
+
+
+await app.listen({ port: 3000, host: '0.0.0.0'})
+
+closeWithGrace(async ({ err }) => {
+    if (err) {
+        app.log.error({ err }, 'server closing due to error')
     }
+    app.log.info('shutting down gracefully')
+    await app.close()
 })
 
-try {
-    await fastify.listen({ port: 3000, host: '0.0.0.0'})
-} catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
-}
