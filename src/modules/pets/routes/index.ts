@@ -6,6 +6,7 @@ import {
 } from '../schemas/showSchema.js'
 import { entityNotFoundResponseSchema } from '../../../schemas/entityNotFoundSchema.js'
 import { badRequestResponseSchema } from '../../../schemas/badRequestSchema.js'
+import { serverErrorResponseSchema } from '../../../schemas/serverErrorSchema.js'
 
 const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.route({
@@ -61,7 +62,8 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       response: {
         200: petShowResponseSchema,
         400: badRequestResponseSchema,
-        404: entityNotFoundResponseSchema
+        404: entityNotFoundResponseSchema,
+        500: serverErrorResponseSchema
       }
     }
   })
