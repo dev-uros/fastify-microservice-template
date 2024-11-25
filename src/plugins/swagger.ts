@@ -11,20 +11,26 @@ export default fp(async (fastify, opts) => {
                 version: '1.0.0'
             },
             // components: {
-            //     securitySchemes: {
-            //         BearerAuth: {
-            //             type: 'http',
-            //             scheme: 'bearer',
-            //             bearerFormat: 'JWT',
-            //         }
-            //     },
-            // },
+            //     schemas: [
+            //
+            //     ]
+            // }
+            components: {
+
+                // securitySchemes: {
+                //     BearerAuth: {
+                //         type: 'http',
+                //         scheme: 'bearer',
+                //         bearerFormat: 'JWT',
+                //     }
+                // },
+            },
             // security: [{BearerAuth: []}],
 
-            // tags: [
-            //     {name: 'users', description: 'Users Module Endpoints'},
-            //     {name: 'auth', description: 'Users Authentication Endpoints'}
-            // ]
+            tags: [
+                {name: 'pets', description: 'Pet Module Endpoints'},
+                // {name: 'auth', description: 'Users Authentication Endpoints'}
+            ]
         }
     })
     fastify.register(SwaggerUI, {

@@ -24,11 +24,11 @@ export const configSchema = Type.Object(
         }),
         DATABASE_HOST: Type.String({
             description: 'Application database host',
-            default: 'localhost'
+            default: 'db'
         }),
         DATABASE_PORT: Type.String({
             description: 'Application database port',
-            default: '7604'
+            default: '5432'
         }),
         DATABASE_USER: Type.String({
             description: 'Application database user',

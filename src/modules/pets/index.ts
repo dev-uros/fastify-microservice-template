@@ -3,7 +3,12 @@ import {join} from "desm";
 import AutoLoad from "@fastify/autoload";
 
 
-const defaultDomain: FastifyPluginAsync = async (fastify, opts)=> {
+const petDomain: FastifyPluginAsync = async (fastify, opts)=> {
+
+    await fastify.register(AutoLoad, {
+        dir: join(import.meta.url, 'repositories'),
+        forceESM: true,
+    })
 
     await fastify.register(AutoLoad, {
         dir: join(import.meta.url, 'routes'),
@@ -20,4 +25,4 @@ const defaultDomain: FastifyPluginAsync = async (fastify, opts)=> {
     })
 }
 
-export default defaultDomain;
+export default petDomain;
