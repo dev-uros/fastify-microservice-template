@@ -34,3 +34,17 @@ CREATE TRIGGER update_pets_updated_at
 BEFORE UPDATE ON pets
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
+
+
+-- Drop the pets table if it already exists (optional, to ensure clean setup)
+DROP TABLE IF EXISTS users;
+
+-- Create the pets table
+CREATE TABLE users (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, -- Unique identifier
+    name VARCHAR(50) NOT NULL
+);
+
+-- Insert sample data into the pets table
+INSERT INTO users (name) VALUES
+('ADMIN');

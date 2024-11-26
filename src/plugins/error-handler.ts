@@ -13,6 +13,9 @@ export default fp(async (fastify, opts) => {
             case 400:
                 errorObject = handleBadRequestError(error)
                 return reply.code(400).send(errorObject)
+            case 401:
+                errorObject = handleUnauthenticatedError(error)
+                return reply.code(401).send(errorObject)
             case 404:
                 errorObject = handleEntityNotFoundError(error)
                 return reply.code(404).send(errorObject)
@@ -60,6 +63,12 @@ export default fp(async (fastify, opts) => {
     function handleServerError(): { message: string } {
         return {
             message: 'Server Error'
+        }
+    }
+
+    function handleUnauthenticatedError(error: FastifyError): { message: string } {
+        return {
+            message: 'Unauthenticated'
         }
     }
 })

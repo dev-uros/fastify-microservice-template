@@ -41,6 +41,9 @@ export const configSchema = Type.Object(
         DATABASE_URL: Type.String({
             description: 'Application database url',
             default: 'postgres://postgres:postgres@db:5432/microservice_template_db'
+        }),
+        JWT_SECRET: Type.String({
+            description: 'Jwt token secret'
         })
     },
     {

@@ -10,26 +10,22 @@ export default fp(async (fastify, opts) => {
                 description: 'Testing the Fastify swagger API',
                 version: '1.0.0'
             },
-            // components: {
-            //     schemas: [
-            //
-            //     ]
-            // }
+
             components: {
 
-                // securitySchemes: {
-                //     BearerAuth: {
-                //         type: 'http',
-                //         scheme: 'bearer',
-                //         bearerFormat: 'JWT',
-                //     }
-                // },
+                securitySchemes: {
+                    BearerAuth: {
+                        type: 'http',
+                        scheme: 'bearer',
+                        bearerFormat: 'JWT',
+                    }
+                },
             },
-            // security: [{BearerAuth: []}],
+            security: [{BearerAuth: []}],
 
             tags: [
                 {name: 'pets', description: 'Pet Module Endpoints'},
-                // {name: 'auth', description: 'Users Authentication Endpoints'}
+                {name: 'auth', description: 'Authentication module'}
             ]
         }
     })

@@ -14,6 +14,7 @@ import {
   PetUpdateRequestSchemaType,
   petUpdateResponseSchema
 } from "../schemas/updateSchema.js";
+import {unauthenticatedResponseSchema} from "../../../schemas/unauthenticatedRequestSchema.js";
 
 const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.route({
@@ -32,8 +33,10 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       tags: ['pets'],
       summary: 'Pet List',
       description: 'Returns list of all pets',
+      consumes: ['application/json'],
       response: {
         200: indexResponseSchema,
+        401: unauthenticatedResponseSchema,
         500: serverErrorResponseSchema
       }
     }
@@ -58,6 +61,7 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       response: {
         200: petShowResponseSchema,
         400: badRequestResponseSchema,
+        401: unauthenticatedResponseSchema,
         404: entityNotFoundResponseSchema,
         500: serverErrorResponseSchema
       }
@@ -84,6 +88,7 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       response: {
         200: petStoreResponseSchema,
         400: badRequestResponseSchema,
+        401: unauthenticatedResponseSchema,
         500: serverErrorResponseSchema
       }
     }
@@ -110,6 +115,7 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       response: {
         200: petUpdateResponseSchema,
         400: badRequestResponseSchema,
+        401: unauthenticatedResponseSchema,
         404: entityNotFoundResponseSchema,
         500: serverErrorResponseSchema
       }
