@@ -7,22 +7,20 @@ import {
 import { entityNotFoundResponseSchema } from '../../../schemas/entityNotFoundSchema.js'
 import { badRequestResponseSchema } from '../../../schemas/badRequestSchema.js'
 import { serverErrorResponseSchema } from '../../../schemas/serverErrorSchema.js'
+import {petStoreRequestSchema, PetStoreRequestSchemaType, petStoreResponseSchema} from "../schemas/storeSchema.js";
 
 const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.route({
     url: '',
     method: 'GET',
     handler: async function (request, reply) {
-      // try {
 
       const pets = await fastify.petRepository.index()
       return reply.send({
         message: 'Successfully retrieved pet lets',
         data: pets
       })
-      // }catch (e) {s
-      //     throw new Error(e);
-      // }
+
     },
     schema: {
       tags: ['pets'],
@@ -36,7 +34,6 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
 
   fastify.route<{ Params: { id: number } }>({
     url: '/:id',
-
     method: 'GET',
     handler: async (request, reply) => {
       const pet = await fastify.petRepository.find(request.params.id)
@@ -67,5 +64,30 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       }
     }
   })
+
+  fastify.route<{Body: PetStoreRequestSchemaType}>({
+    method: 'POST',
+    url: '',
+    handler: async (request, reply) => {
+      const pet = await fastify.petRepository.store(request.body)
+
+      return reply.send({
+        message: 'Successfully stored a pet',
+        data: pet
+      })
+    },
+    schema:{
+      body: petStoreRequestSchema,
+      tags: ['pets'],
+      summary: 'Store pet',
+      description: 'Store pet data',
+      consumes: ['application/json'],
+      response: {
+        200: petStoreResponseSchema,
+        400: badRequestResponseSchema,
+        500: serverErrorResponseSchema
+      }
+    }
+  });
 }
 export default petRoutes

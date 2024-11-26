@@ -1,10 +1,12 @@
 import {Static, Type} from "@sinclair/typebox";
 
+const ErrorSchema = Type.Object({
+    input: Type.String(),
+    message: Type.String()
+});
 export const badRequestResponseSchema = Type.Object(
     {
-        path: Type.String(),
-        requestPart: Type.String(),
-        message: Type.String()
+        errors: Type.Array(ErrorSchema)
     },
     {
         additionalProperties: false,
