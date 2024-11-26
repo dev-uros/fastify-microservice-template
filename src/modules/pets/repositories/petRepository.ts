@@ -39,13 +39,13 @@ export default fp(
       async update(
         petData: Updateable<Pets>,
         petId: number
-      ): Promise<Selectable<Pets>> {
+      ): Promise<Selectable<Pets> | undefined> {
         return await this.db
           .updateTable('pets')
           .where('pets.id', '=', petId)
           .set(petData)
           .returningAll()
-          .executeTakeFirstOrThrow()
+          .executeTakeFirst()
       }
     }
 

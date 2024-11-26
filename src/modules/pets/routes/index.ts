@@ -8,6 +8,12 @@ import { entityNotFoundResponseSchema } from '../../../schemas/entityNotFoundSch
 import { badRequestResponseSchema } from '../../../schemas/badRequestSchema.js'
 import { serverErrorResponseSchema } from '../../../schemas/serverErrorSchema.js'
 import {petStoreRequestSchema, PetStoreRequestSchemaType, petStoreResponseSchema} from "../schemas/storeSchema.js";
+import {
+  petUpdateParamSchema,
+  petUpdateRequestSchema,
+  PetUpdateRequestSchemaType,
+  petUpdateResponseSchema
+} from "../schemas/updateSchema.js";
 
 const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.route({
@@ -89,5 +95,38 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       }
     }
   });
+
+  fastify.route<{Params: {id: number}, Body: PetUpdateRequestSchemaType}>({
+    method: 'PATCH',
+    url: '/:id',
+    handler: async(request, reply) => {
+      const pet = await fastify.petRepository.update(request.body, request.params.id);
+
+      if(!pet){
+        const error = new Error() as FastifyError
+        error.statusCode = 404
+        error.message = 'Pet not found'
+        throw error
+      }
+      return reply.send({
+        message: 'Successfully updated pet',
+        data: pet
+      })
+    },
+    schema:{
+      body: petUpdateRequestSchema,
+      params: petUpdateParamSchema,
+      tags: ['pets'],
+      summary: 'Update pet',
+      description: 'Update pet data',
+      consumes: ['application/json'],
+      response: {
+        200: petUpdateResponseSchema,
+        400: badRequestResponseSchema,
+        404: entityNotFoundResponseSchema,
+        500: serverErrorResponseSchema
+      }
+    }
+  })
 }
 export default petRoutes
