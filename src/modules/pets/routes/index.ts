@@ -21,7 +21,7 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     method: 'GET',
     handler: async function (request, reply) {
 
-      const pets = await fastify.petRepository.index()
+      const pets = await fastify.petIndexService.getPets();
       return reply.send({
         message: 'Successfully retrieved pet lets',
         data: pets
@@ -33,7 +33,8 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       summary: 'Pet List',
       description: 'Returns list of all pets',
       response: {
-        200: indexResponseSchema
+        200: indexResponseSchema,
+        500: serverErrorResponseSchema
       }
     }
   })
@@ -42,15 +43,7 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     url: '/:id',
     method: 'GET',
     handler: async (request, reply) => {
-      const pet = await fastify.petRepository.find(request.params.id)
-
-      if (!pet) {
-        const error = new Error() as FastifyError
-        error.statusCode = 404
-        error.message = 'Pet not found'
-        throw error
-      }
-
+      const pet = await fastify.petShowService.find(request.params.id)
       return reply.send({
         message: 'Successfully shown pet',
         data: pet
@@ -75,7 +68,7 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     method: 'POST',
     url: '',
     handler: async (request, reply) => {
-      const pet = await fastify.petRepository.store(request.body)
+      const pet = await fastify.petStoreService.store(request.body)
 
       return reply.send({
         message: 'Successfully stored a pet',
@@ -100,14 +93,8 @@ const petRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
     method: 'PATCH',
     url: '/:id',
     handler: async(request, reply) => {
-      const pet = await fastify.petRepository.update(request.body, request.params.id);
+      const pet = await fastify.petUpdateService.update(request.body, request.params.id);
 
-      if(!pet){
-        const error = new Error() as FastifyError
-        error.statusCode = 404
-        error.message = 'Pet not found'
-        throw error
-      }
       return reply.send({
         message: 'Successfully updated pet',
         data: pet

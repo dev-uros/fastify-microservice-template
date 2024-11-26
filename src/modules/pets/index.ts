@@ -11,6 +11,11 @@ const petDomain: FastifyPluginAsync = async (fastify, opts)=> {
     })
 
     await fastify.register(AutoLoad, {
+        dir: join(import.meta.url, 'services'),
+        forceESM: true,
+    })
+
+    await fastify.register(AutoLoad, {
         dir: join(import.meta.url, 'routes'),
         options: {
             prefix: opts.prefix,
