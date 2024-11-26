@@ -50,4 +50,13 @@ await app.register(AutoLoad, {
     maxDepth: 1
 })
 
+app.route({
+    method: 'GET',
+    url: '/healthcheck',
+    handler:(request, reply) => {
+        return reply.send({
+            message: 'Server Up'
+        })
+    }
+})
 export default app

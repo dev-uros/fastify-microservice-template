@@ -27,6 +27,14 @@ generate-database-types:
 wait-for-db:
 	docker exec -it $(DB_CONTAINER_NAME) /bin/sh -c 'until pg_isready -h localhost -p 5432; do echo waiting for db; sleep 2; done'
 
+wait-for-node:
+	@echo "Waiting for the node server to be up on localhost:3000..."
+	@until curl --silent --fail http://localhost:3000/healthcheck > /dev/null; do \
+		echo "Waiting for node server..."; \
+		sleep 2; \
+	done
+	@echo "Node server is running on localhost:3000."
+
 attach-to-logs:
 	docker compose --env-file .env.docker logs -f
 init:
@@ -34,6 +42,7 @@ init:
 	$(MAKE) env
 	$(MAKE) up-detached
 	$(MAKE) wait-for-db
+	$(MAKE) wait-for-node
 	$(MAKE) generate-database-types
 	$(MAKE) attach-to-logs
 
